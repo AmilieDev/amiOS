@@ -12,13 +12,15 @@ static volatile unsigned short *const vga = (volatile unsigned short *)0xb8000; 
 static int cursor_row = 0;
 static int cursor_col = 0;
 
-void init_vga(void){
+int init_vga(void){
     // disable cursor on init
     outb(0x3D4, 0x0A);
     outb(0x3D5, 0x20);
 
     for (int i = 0; i < 80 * 25; i++)
         vga[i] = 0x0f20; // Clear the screen.
+
+    return 0;
 }
 
 void newline(void){

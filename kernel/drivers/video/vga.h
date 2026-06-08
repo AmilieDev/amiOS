@@ -8,7 +8,7 @@
 #ifndef VGA_H
 #define VGA_H
 
-void init_vga(void);
+int init_vga(void);
 void newline(void);
 void putchar(char c);
 void scroll(void);

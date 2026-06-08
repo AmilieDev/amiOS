@@ -10,6 +10,8 @@ LDFLAGS := -T boot/linker.ld --oformat binary
 # Sources and objects (mirror the kernel/ tree into build/)
 C_SRCS  := $(shell find kernel -name '*.c')
 C_OBJS  := $(patsubst %.c,build/%.o,$(C_SRCS))
+ASM_SRCS := $(shell find kernel -name '*.asm')
+ASM_OBJS := $(patsubst %.asm,build/%.o,$(ASM_SRCS))
 ENTRY   := build/kernel_entry.o
 
 MIN_BYTES := 8704          # 17 sectors * 512
@@ -32,9 +34,13 @@ build/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+build/%.o: %.asm
+	@mkdir -p $(dir $@)
+	$(ASM) -f elf32 $< -o $@
+
 # kernel_entry.o MUST be first so the entry sits at 0x1000
-build/kernel.bin: $(ENTRY) $(C_OBJS) boot/linker.ld
-	$(LD) $(LDFLAGS) -o $@ $(ENTRY) $(C_OBJS)
+build/kernel.bin: $(ENTRY) $(ASM_OBJS) $(C_OBJS) boot/linker.ld
+	$(LD) $(LDFLAGS) -o $@ $(ENTRY) $(ASM_OBJS) $(C_OBJS)
 
 build/os-image.bin: build/boot.bin build/kernel.bin
 	cat build/boot.bin build/kernel.bin > $@

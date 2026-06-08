@@ -6,14 +6,21 @@
 */
 
 #include "drivers/video/vga.h"
+#include "memory/gdt.h"
 
 void init(void) {
-    init_vga(); // <- Prepare to write to video memory.
+    // Setting up the new GDT.
+    init_gdt(); // build and load
 
-    print_to_screen("[INFO] The amiOS Kernel - Copyright Amilie and Contributors 2026\n");
-    print_to_screen("[INFO] You are running a build from the 7th of June 2026.\n");
+    // Init VGA and output basic information.
+    int vga_ret_code = init_vga();
 
-    // TODO: Move all this into a logging function with actual checks to ensure shit worked.
-    print_to_screen("\n[OK] Handoff from bootloader completed.\n"); // kinda has to have worked if were here dumbass
-    print_to_screen("[OK] VGA initalized correctly. If you see this, it worked.\n"); // same here idiot
+    if(vga_ret_code == 0){
+        // TODO: Move all this into a logging function with actual checks to ensure shit worked.
+        print_to_screen("\n[OK] Handoff from bootloader completed.\n"); // kinda has to have worked if were here dumbass
+        print_to_screen("[OK] GDT initialized successfully.\n");
+        print_to_screen("[OK] VGA initalized correctly. If you see this, it worked.\n"); // same here idiot
+    }else{
+        __asm__ volatile ("hlt");
+    }
 }
