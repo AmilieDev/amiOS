@@ -24,7 +24,7 @@ struct gdt_ptr{
     uint32_t base; // table address
 }__attribute__((packed));
 
-struct gdt_entry gdt[3];
+struct gdt_entry gdt[6];
 struct gdt_ptr gdtr;
 
 extern void gdt_flush(uint32_t); // see asm file gdt_flush.asm
@@ -44,6 +44,8 @@ int init_gdt(void) {
     set_entry(0, 0, 0, 0, 0); // Null first entry. Must be all zeros for GDT.
     set_entry(1, 0, 0xFFFFF, 0x9A, 0xC); // basically the same as in the boot.asm, this is code params
     set_entry(2, 0, 0xFFFFF, 0x92, 0xC); // data params with 0x92
+    set_entry(3, 0, 0xFFFFF, 0xFA, 0xCF);
+    set_entry(4, 0, 0xFFFFF, 0xF2, 0xCF);
     gdtr.limit = sizeof(gdt) - 1;
     gdtr.base = (uint32_t)&gdt;
     gdt_flush((uint32_t)&gdtr);

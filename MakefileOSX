@@ -20,7 +20,7 @@ MIN_BYTES := 8704          # 17 sectors * 512
 all: build/os-image.bin
 
 run: build/os-image.bin
-	qemu-system-i386 -fda build/os-image.bin
+	qemu-system-i386 -fda build/os-image.bin -serial stdio
 
 build/boot.bin: boot/boot.asm
 	@mkdir -p $(dir $@)

@@ -7,9 +7,11 @@
 
 #include "logging.h"
 #include "../../drivers/video/vga.h"
+#include "../../drivers/serial/serial.h"
 
 void log_write(const char *s){
     print_to_screen(s); // just takes input from report_status, is the choke point.
+    serial_write(s); // write out to the serial port
 }
 
 // is routed via log_write
