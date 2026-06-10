@@ -6,11 +6,11 @@
 */
 
 #include "drivers/video/vga.h"
-#include "drivers/gdt/gdt.h"
+#include "internals/gdt/gdt.h"
 #include "userspace/logging/logging.h"
 #include "userspace/applications/logging_test.h"
 #include "drivers/serial/serial.h"
-#include "drivers/gdt/tss.h"
+#include "internals/gdt/tss.h"
 
 void init(void) {
     report_status("GDT", init_gdt()); // Setting up the new GDT.
