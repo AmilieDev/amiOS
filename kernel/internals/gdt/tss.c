@@ -19,10 +19,13 @@ int init_tss(void){
     set_entry(5, base, limit, 0x89, 0x00);
 
     memset(&tss, 0, sizeof(tss));
+
+    // we gotta set these 2 to zero to make sure alignment isnt knocked off
     tss.ss0 = 0x10;
     tss.esp0 = 0;
     tss.iomap_base = sizeof(tss);
 
+    // calls the asm in tsa_flush.asm
     tss_flush();
     return 0;
 }
