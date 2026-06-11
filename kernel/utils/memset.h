@@ -11,10 +11,11 @@
 #include <stddef.h>
 
 void *memset(void *dst, int c, size_t n);
+void *memcpy(void* dst, const void* src, size_t n);
 
 /*
     TODO:
-        Add memcpy, memmove and memcmp
+    , memmove and memcmp
     
     !! DO THESE IN REASONABLE TIME PLEASE !!
 */
