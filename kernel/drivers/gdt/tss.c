@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include "gdt.h"
 #include "tss.h"
-#include "../../utils/string.h"
+#include "../../lib/string.h"
 
 struct tss_entry tss;
 
